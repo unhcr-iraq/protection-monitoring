@@ -1,0 +1,82 @@
+---
+title: "Protection Monitoring"
+author: "Iraq protection Cluster"
+date: "December 2015"
+output: html_document
+---
+
+This reports presents the result of protection monitoring in Iraq. 
+
+The questionnaire covers information about:
+ * household profiles as well as description of the displacement & movement pattern
+ * Accomdation & Livelihood status
+ * Documentation, civil status & registration
+ * Specific needs
+ * Already received assistance
+
+Data were collected during field operations. as such, the surveyed population does not represent a representative sample of all IDPs in Iraq.
+
+# Intro: Household demographics 
+
+In this first part we will analyse the profile of the surveyed household and compare it with the information gathered through the Displacement Tracking Matrix. This comparison 
+
+Number of persons in Household governorate of origin / Representativity compared to DTM
+
+
+
+Recognisable movement patterns
+Current intentions? If returning to area of origin, why?
+
+# 1. Current Protection capabilities: 
+
+Availibility of shelters
+
+Availibility of livelihood
+
+Registration with MoMD & residency status
+
+If registered, has family received cash assistance?
+
+Does the household have residency? 
+
+
+# 2. Identified Protection Risks
+
+
+### Risk of not having document
+Reasons for not registering with MoMD
+
+If not able to obtain residency, why?
+
+
+Numbers of households with missing documentation
+
+### Risk of Eviction & Detention
+Is there & Why is there a risk of eviction?
+
+Detention
+
+### Risk of not feeling safe
+Specific needs
+
+
+
+# 3. Protection priorities
+
+In this last part, we will analyse the relation between capabilities & expressed protection risk
+
+Relation between accomodation type /location & eviction risk?
+
+Relation between accomodation type /location & women feeling safe at home?
+
+Relation between household profile / location & documentation issues?
+
+Relation between household profile / location & received assistance (cash fromt he gvt or direct assistance from UN/NGO)?
+
+Relation between household profile / minor women pregnant
+
+Relation between minor women pregnant / assistance from UN/NGO
+
+Relation between detention and household profile?
+
+ specific needs for referral
