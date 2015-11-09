@@ -21,15 +21,31 @@ questions <- read.xlsx("data/IRQ_IDP_ProtMonitoring_CentreS.xls",sheetIndex=1,st
 questions <- subset(questions, type !="begin group" & type !="end group")
 ##questions <- questions[ which(questions$type!="begin group" & questions$type!="end group"), ]
 
+
+## extracting unique choice questions
+questions$unique <- with(questions,  ifelse(grepl("select_one", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  questions$type),
+                                              paste0( substr(questions$type ,
+                                                             (regexpr("select_one", questions$type , ignore.case=FALSE, fixed=TRUE))+16,250)),paste0("") ))
+questions.unique <- questions[questions$unique!="",]
+
+
+
+
 ## extracting multiple choice questions
 questions$multiple <- with(questions,  ifelse(grepl("select_multiple", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  questions$type),
                                                                  paste0( substr(questions$type ,
                                                                           (regexpr("select_multiple", questions$type , ignore.case=FALSE, fixed=TRUE))+16,250)),paste0("") ))
 questions.multiple <- questions[questions$multiple!="",]
-question.multiple <- merge(x=questions.multiple, y=choices, by.x="multiple",by.y="list.name", all.x=TRUE) 
+
+
+
 
 #list of choices from ODK
 choices <- read.xlsx("data/IRQ_IDP_ProtMonitoring_CentreS.xls",sheetIndex=2,stringsAsFactors=FALSE,encoding="UTF-8")
+
+
+question.multiple <- merge(x=questions.multiple, y=choices, by.x="multiple",by.y="list.name", all.x=TRUE) 
+
 
 
 ## Creating a label conversion table -- with cleaned variable name 

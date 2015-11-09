@@ -1,4 +1,6 @@
-## preparing a few graphs
+## Generation of a exploratory graphs
+
+## Visual exploration of data will provide a quick overview 
 
 library(ggplot2)
 
@@ -78,6 +80,10 @@ ggsave("out/barReligion.png", bar.Religion, width=8, height=6,units="in", dpi=30
 
 
 ### Let's try to generate chart for all variables
+
+## We will use barplot for select_one variable
+
+
 
 for (i in 1:20 ) {
   rm(variablename)

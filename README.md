@@ -1,4 +1,4 @@
-# Protection Monitoring
+# Protection Information Analysis
 
 This projects aims at providing analysis for:
 
