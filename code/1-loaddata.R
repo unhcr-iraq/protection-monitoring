@@ -22,11 +22,6 @@ questions <- subset(questions, type !="begin group" & type !="end group")
 ##questions <- questions[ which(questions$type!="begin group" & questions$type!="end group"), ]
 
 
-## extracting unique choice questions
-questions$unique <- with(questions,  ifelse(grepl("select_one", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  questions$type),
-                                              paste0( substr(questions$type ,
-                                                             (regexpr("select_one", questions$type , ignore.case=FALSE, fixed=TRUE))+16,250)),paste0("") ))
-questions.unique <- questions[questions$unique!="",]
 
 
 
@@ -94,8 +89,6 @@ names(data)
 
 ##
 
-### Eliminate record without coordinates
-data.map <-data[!rowSums(is.na(data["longitude"])), ]
 
 
 ## get a total number of persons
@@ -114,5 +107,7 @@ data$total <- psum(data$Male_0_5,
                    data$Male_over_60,
                    data$Female_over_60, na.rm = TRUE) 
 
+### Eliminate record without coordinates
+data.map <-data[!rowSums(is.na(data["longitude"])), ]
 
 

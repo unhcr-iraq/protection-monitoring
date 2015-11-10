@@ -78,33 +78,53 @@ bar.Religion <- ggplot(data=data, aes(x=reorder(Religion,Religion,
   ggtitle("Religion")
 ggsave("out/barReligion.png", bar.Religion, width=8, height=6,units="in", dpi=300)
 
-
+#####################################################################################
 ### Let's try to generate chart for all variables
+#####################################################################################
 
+#################################################
 ## We will use barplot for select_one variable
 
+## extracting unique choice questions
+questions$unique <- with(questions,  ifelse(grepl("select_one", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  questions$type),
+                                            paste0( substr(questions$type ,
+                                                           (regexpr("select_one", questions$type , ignore.case=FALSE, fixed=TRUE))+16,250)),paste0("") ))
+questions.unique <- questions[questions$unique!="",]
 
 
-for (i in 1:20 ) {
+questions.unique.var <- questions.unique$name
+data.single <- data[,c("total", questions.unique.var)]
+
+## Remove variable where we get only NA
+data.single <- data.single[,colSums(is.na(data.single))<nrow(data.single)]
+
+names(data.single)
+
+## Now we can start plotting in a loop
+# the key is at the line here
+# p + aes_string(x = names(mydata)[i])
+# Use aes_string instead of aes, so that when you look at summary(ggplot_obj), 
+# the mapping for x-values that are changing will be the actual string and not a variable i.
+
+p <- ggplot(data.frame(data.single), aes(y=data.single$total)) + ylab("# of Ind") + scale_y_continuous(labels=format_si())
+for (i in 11:50 ) {
   rm(variablename)
-  variablename <- names(data)[i]
-  rm(plottitle)
-  plottitle <- substr(attributes(data)$variable.labels[i], 1, gregexpr(pattern =']', attributes(data)$variable.labels[i]))
+  variablename <- names(data.single)[i]
   rm(plot)
-  plot <- ggplot(data=data, aes(x=reorder(variablename,variablename,
-                                          function(x)-length(x)) , y=total)) + 
-    geom_bar( stat="identity",fill="#2a87c8",colour="#2a87c8") +
-    # geom_text(aes(label=variable), vjust=0) +
+  plot <- p + 
+     aes_string(x = names(data.single)[i]) +
+   # aes_string(x = reorder( names(data.single)[i], names(data.single)[i], function(x)-length(x)))  +
+    xlab(colnames(data.single[i])) + 
+    geom_bar( stat="identity",fill="#2a87c8",colour="#2a87c8")  +
     guides(fill=FALSE) + 
     # coord_flip()+
-    xlab(variablename) + 
-    ylab("# of Ind") +
-    scale_y_continuous(labels=format_si())+
-    coord_flip()+ 
-    ggtitle(plottitle)
-  assign(paste("plot",variablename,sep=""), plot)
-  ggsave(filename=paste("out/plot",variablename,".png",sep=""), plot=plot, width=8, height=6,units="in", dpi=300)
+     xlab("") + 
+    coord_flip() + 
+    ggtitle(variablename)
+  assign(paste("plot", variablename, sep=""), plot)
+  ggsave(filename=paste("out/plot_",i,variablename,".png",sep=""), plot=plot, width=8, height=6,units="in", dpi=300)
 }
 
 
+## We will use histogram variable for integer variables
 

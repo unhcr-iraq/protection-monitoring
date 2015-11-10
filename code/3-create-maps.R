@@ -61,3 +61,16 @@ maphex <- maphex +
 
 print(maphex)
 ggsave("out/maphex.png", maphex, width=8, height=6,units="in", dpi=300)
+
+# Let's try hexabin to view the data! - plot total
+rm(maphex.total)
+maphex.total <- ggmap(googleterrain)
+maphex.total <- maphex.total +
+  stat_summary_hex(aes(data.map$longitude,  data.map$latitude, z = data.map$total))+
+  #coord_equal() +
+  theme_bw()+ scale_fill_gradient(low = "#ffffcc", high = "#ff4444") +
+  labs(x = "Longitude", y = "Latitude", fill = "#individuals") +
+  ggtitle("Total Ind #")
+
+print(maphex.total)
+ggsave("out/maphextotal.png", maphex.total, width=8, height=6,units="in", dpi=300)
