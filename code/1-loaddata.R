@@ -110,4 +110,14 @@ data$total <- psum(data$Male_0_5,
 ### Eliminate record without coordinates
 data.map <-data[!rowSums(is.na(data["longitude"])), ]
 
+data$total.cat <- as.factor(data$total)
+levels(data$total.cat)
+levels(data$total.cat)[8:165] <- "7+"
+prop.table(table(data$total.cat))
 
+
+###################################################3
+#### Loading DTM Data -- http://iomiraq.net/dtm-page
+dtm <- read.csv("data/20151118_03_IOM_DTM_Publish_Master_List.csv", encoding="WIN1256", na.strings="n/a")
+#dtm <- read.xlsx("data/20151118_03_IOM_DTM_Publish_Master_List.xlsx", sheetIndex=1,startRow=4,stringsAsFactors=FALSE,encoding="UTF-8")
+#dtmretunree <- read.xlsx("data/20151118_04_IOM_DTM_Publish_Returnee_Master_List.xlsx",  sheetIndex=1,startRow=4,stringsAsFactors=FALSE,encoding="UTF-8")

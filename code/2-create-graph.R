@@ -3,6 +3,7 @@
 ## Visual exploration of data will provide a quick overview 
 
 library(ggplot2)
+library(plyr)
 
 format_si <- function(...) {
   # Format a vector of numeric values according
@@ -78,6 +79,14 @@ bar.Religion <- ggplot(data=data, aes(x=reorder(Religion,Religion,
   ggtitle("Religion")
 ggsave("out/barReligion.png", bar.Religion, width=8, height=6,units="in", dpi=300)
 
+#######################################################################
+######## Age Pyramid
+
+## Reformatting a bit the data
+
+data.pyramid <- data[, c("total","Male_0_5","Female_0_5","Male_16_17","Female_6_17","Male_18_60","Female_18_60","Male_over_60","Female_over_60")]
+
+
 #####################################################################################
 ### Let's try to generate chart for all variables
 #####################################################################################
@@ -128,3 +137,49 @@ for (i in 11:50 ) {
 
 ## We will use histogram variable for integer variables
 
+
+
+
+
+
+###################
+#### Compare population from DTM & population from 
+
+irq_adm1 <- readShapePoly('data/shp/irq_admbnda_adm1_ocha_20140717.shp', proj4string=CRS("+proj=longlat"))
+#
+#plot(irq_adm1)
+
+# Fortify them
+irq_adm1@data$id = rownames(irq_adm1@data)
+
+rm(irq_adm1_f)
+irq_adm1_f <- fortify(irq_adm1, region="id")
+#irq_adm1_f <- merge(irq_adm1_f, irq_adm1@data, by.x="id",by.y="row.names")
+irq_adm1_f <-join(irq_adm1_f, irq_adm1@data, by="id")
+irq_adm1_f <-join(x=irq_adm1_f, y=govnames, by="A1NameAlt1")
+
+rm(maplevel1)
+maplevel1 <-  ggplot(irq_adm1_f, aes(long, lat)) + coord_equal()+
+  geom_polygon(data = irq_adm1_f, aes(x = long, y = lat, group = group), alpha = 0.5) +
+  geom_text(aes(label = short, x = Longitude_c, y = Latitude_c, group = group)) + #add labels at centroids
+  geom_path(data = irq_adm1_f, aes(x = long, y = lat, group = group), color="white")+
+  ggtitle("Governorates of Iraq")
+
+
+### getting level 2
+irq_adm2 <- readShapePoly('data/irq_admbnda_adm2_ocha_20140717.shp', proj4string=CRS("+proj=longlat"))
+irq_adm2@data$id = rownames(irq_adm2@data)
+irq_adm2_f <- fortify(irq_adm2, region="id")
+irq_adm2_f <-join(irq_adm2_f, irq_adm2@data, by="id")
+
+
+## Building spatial data frame fromt the 2 dataset
+# Converting the dataframe in a spatial dataframe
+datamap <- data[!rowSums(is.na(data["longitude"])), ]
+coordinates(datamap) <- c("longitude", "latitude")
+
+data.gov <- aggregate(cbind(total) ~ Governorate, data = data, FUN = sum, na.rm = TRUE)
+data.dis <- aggregate(cbind(total) ~ District, data = data, FUN = sum, na.rm = TRUE)
+
+dtm.gov<- aggregate(cbind(IDPs.individuals) ~ OCHA.admin.1, data = dtm, FUN = sum, na.rm = TRUE)
+dtm.dis<- aggregate(cbind(IDPs.individuals) ~ OCHA.admin.2, data = dtm, FUN = sum, na.rm = TRUE)
