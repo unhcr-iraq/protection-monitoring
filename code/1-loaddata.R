@@ -6,7 +6,7 @@ require(stringr)
 require(plyr)
 require(xlsx)
 
-data <- read.csv("data/IRQ_IDP_ProtMonitoring_CentreS_2015_10_26_01_44_54.csv", encoding="UTF-8", na.strings="n/a")
+data <- read.csv("data/IRQ_IDP_ProtMonitoring_SULAY_2015_10_06_09_42_42.csv", encoding="UTF-8", na.strings="n/a")
 
 
 #names(data)
@@ -15,7 +15,7 @@ data <- read.csv("data/IRQ_IDP_ProtMonitoring_CentreS_2015_10_26_01_44_54.csv", 
 ### let's re-encode the form using the xlsfrom definition
 
 #aggreagtion method
-questions <- read.xlsx("data/IRQ_IDP_ProtMonitoring_CentreS.xls",sheetIndex=1,stringsAsFactors=FALSE,encoding="UTF-8")
+questions <- read.xlsx("data/IRQ_IDP_ProtMonitoring_SULAY.xls",sheetIndex=1,stringsAsFactors=FALSE,encoding="UTF-8")
 
 ## we can now delete the "begin group" and "end group" rows
 questions <- subset(questions, type !="begin group" & type !="end group")
@@ -36,7 +36,7 @@ questions.multiple <- questions[questions$multiple!="",]
 
 
 #list of choices from ODK
-choices <- read.xlsx("data/IRQ_IDP_ProtMonitoring_CentreS.xls",sheetIndex=2,stringsAsFactors=FALSE,encoding="UTF-8")
+choices <- read.xlsx("data/IRQ_IDP_ProtMonitoring_SULAY.xls",sheetIndex=2,stringsAsFactors=FALSE,encoding="UTF-8")
 
 
 question.multiple <- merge(x=questions.multiple, y=choices, by.x="multiple",by.y="list.name", all.x=TRUE) 
